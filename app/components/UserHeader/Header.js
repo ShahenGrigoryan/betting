@@ -117,10 +117,12 @@ function UserHeader(props) {
           classes.floatingBar,
           margin && classes.appBarShift,
           setMargin(position),
-          turnDarker && classes.darker,
+          // turnDarker && classes.darker,
           gradient ? classes.gradientBg : classes.solidBg
         )
+
       }
+      style={{backgroundColor:turnDarker?'#080A2C':'transparent'}}
     >
       <Toolbar disableGutters={!open}>
         <Fab
