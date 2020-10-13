@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './appStyles-jss';
+import LoginBg from "../../api/ui/images/LoginBg.png"
 
 class Outer extends React.Component {
   render() {
@@ -14,7 +15,7 @@ class Outer extends React.Component {
       decoration
     } = this.props;
     return (
-      <div className={classNames(classes.appFrameOuter, gradient ? classes.gradientBg : classes.solidBg)}>
+      <div style={{backgroundImage:`url(${LoginBg})`,width:'100%',height:'100%',display:'flex',justyfyContent:'center',alignItems:'center',backgroundSize:'cover'}}>
         <main className={classes.outerContent} id="mainContent">
           { decoration && <div className={classes.petal} /> }
           {children}

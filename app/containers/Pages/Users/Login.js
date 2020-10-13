@@ -9,6 +9,7 @@ import styles from 'dan-components/Forms/user-jss';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { loginStart } from '../../../redux/admin/admin.actions';
+import {Box} from "@material-ui/core";
 
 class Login extends React.Component {
   submitForm(values) {
@@ -38,6 +39,7 @@ class Login extends React.Component {
         <div className={classes.container}>
           <div className={classes.userFormWrap}>
             <LoginForm onSubmit={values => this.submitForm(values)} />
+
           </div>
         </div>
       </div>

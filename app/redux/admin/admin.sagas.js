@@ -24,7 +24,6 @@ export function* getInfo({ payload:token}) {
   try {
     const apiService = new ApiService();
     const info = yield apiService.getInfo(token);
-    console.log("saga info",info)
     yield put(getInfoSuccess(info));
   } catch (error) {
     yield put(getInfoFailure(error));

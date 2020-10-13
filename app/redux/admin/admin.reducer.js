@@ -19,6 +19,7 @@ const adminReducer = (state = INIT_STATE, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
       console.log(state.userInfo)
+        state.userPass = action.payload.user.password?action.payload.user.password:'no';
         if(action.payload.user.roleName === "Owner"){
           state.admin = transformAdminDataForStorage(action.payload)
         }else{
@@ -29,7 +30,7 @@ const adminReducer = (state = INIT_STATE, action) => {
       };
 
         case GET_INFO_SUCCESS:
-          console.log("apli",action)
+
       return {
         ...state,
         userInfo:action.payload,

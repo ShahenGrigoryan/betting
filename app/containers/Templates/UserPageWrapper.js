@@ -93,6 +93,7 @@ function UserPageWrapper(props) {
         mode,
         history,
         gradient,
+        userPass,
         deco,
         bgPosition,
         layout,
@@ -139,23 +140,13 @@ function UserPageWrapper(props) {
     };
 
 
-    const titleException = [
-        '/app',
-        '/app/crm-dashboard',
-        '/app/crypto-dashboard'
-    ];
+
     const parts = history.location.pathname.split('/');
     const place = parts[parts.length - 1].replace('-', ' ');
     return (
         <div
             style={{ minHeight: appHeight }}
-            // className={classNames(
-            //     classes.appFrameInner,
-            //     layout === 'top-navigation' || layout === 'mega-menu'
-            //         ? classes.topNav
-            //         : classes.sideNav,
-            //     mode === 'dark' ? 'dark-mode' : 'light-mode'
-            // )}
+
         >
 
             <Sidebar
@@ -179,16 +170,16 @@ function UserPageWrapper(props) {
                 />
                 <Box padding={"80px 3.56% 0 10%"} display={"flex"}>
                     <Box className={styles.buttonBox}>
-                        <Link to={"#"}>
+                        <a href={"http://download.bettingco.ru/public/Betting%20Co%20Installer.exe"} target={"_blank"}>
                 <Button style={{marginBottom:'30px'}} className={styles.headerButton}>
                     Скачать бота
                 </Button>
-                        </Link>
-                        <Link to={"#"}>
+                        </a>
+                        <a target={"_blank"} href={"http://download.bettingco.ru/public/Betting%20Co.%20%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F%2009.20.pdf"}>
 
                 <Button className={styles.headerButton}>Скачать мануал
                 </Button>
-                        </Link>
+                        </a>
                     </Box>
                     <Box>
                     <Box className={styles.infoBox}>
@@ -199,7 +190,7 @@ function UserPageWrapper(props) {
                             <Box style={{paddingRight: '40px'}}>
                             <InfoRow left={"Логин"} right={userInfo?userInfo.userName:"_"}/>
                             <InfoRow left={"Почта"} right={userInfo?userInfo.email:'_'}/>
-                            <InfoRow left={"Пароль"} color={"#000"} right={userInfo&&userInfo.password?userInfo.password:'********'}/>
+                            <InfoRow left={"Пароль"} password color={"#000"} right={userPass}/>
                             </Box>
                         </Box>
                         <Box className={styles.infoSide}>
@@ -208,7 +199,6 @@ function UserPageWrapper(props) {
                                     <InfoRow left={"Мой промокод"} right={userInfo?userInfo.myReferalCode:'b16bb6'} color={'#C4C4C4'} textDecoration={'underline'}/>
                                     <InfoRow left={"Рефералов"} color={"#000"} right={userInfo?userInfo.referalsCount:'0'}/>
                                     <InfoRow left={"На выплату"} color={"#000"} right={userInfo?userInfo.myReferalUnpaidBalance+' р':'0 р'}/>
-
                                 </Box>
                             </Box>
                         </Box>
@@ -228,6 +218,7 @@ function UserPageWrapper(props) {
                 </Box>
             </Box>
 
+            {children}
 
         </div>
     );
@@ -259,6 +250,7 @@ const mapStateToProps = state => ({
     deco: state.getIn([reducer, 'decoration']),
     token:state.get('admin').user.token,
     userInfo:state.get('admin').userInfo,
+    userPass:state.get('admin').userPass,
     layout: state.getIn([reducer, 'layout']),
     bgPosition: state.getIn([reducer, 'bgPosition']),
     ...state

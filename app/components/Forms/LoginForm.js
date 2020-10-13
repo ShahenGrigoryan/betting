@@ -24,6 +24,9 @@ import brand from 'dan-api/dummy/brand';
 import logo from 'dan-images/logo.svg';
 import { TextFieldRedux, CheckboxRedux } from './ReduxFormMUI';
 import styles from './user-jss';
+import Logo from "../../api/ui/images/LogoDark.svg"
+import LogoText from "../../api/ui/images/LogoTextDark.svg"
+import {Box} from "@material-ui/core";
 // import { ContentDivider } from '../Divider';
 
 // validation functions
@@ -60,18 +63,20 @@ class LoginForm extends React.Component {
     const { showPassword } = this.state;
     return (
       <Fragment>
+
         <Hidden mdUp>
           <NavLink to="/" className={classNames(classes.brand, classes.outer)}>
-            <img src={logo} alt={brand.name} />
-            {brand.name}
+            <img src={Logo}  style={{width:'40px'}} alt={'logo'} />
+            <img src={LogoText} style={{width:'127px'}} alt={'Bettting CO'} />
           </NavLink>
         </Hidden>
-        <Paper className={classNames(classes.paperWrap, deco && classes.petal)}>
+        <Paper className={classNames(classes.paperWrap, deco && classes.petal)} style={{position:'relative'}}>
+          <Box style={{position:'absolute',top:'0',left:'50%',transform:'translateX(-50%)',width:'41.5%',height:'7px',background: '#24BD53',borderRadius:'5px'}}/>
           <Hidden smDown>
             <div className={classes.topBar}>
               <NavLink to="/" className={classes.brand}>
-                <img src={logo} alt={brand.name} />
-                {brand.name}
+                <img src={Logo}  style={{width:'40px'}} alt={'logo'} />
+                <img src={LogoText} style={{width:'127px'}} alt={'Bettting CO'} />
               </NavLink>
               <Button
                 size="small"
@@ -80,21 +85,14 @@ class LoginForm extends React.Component {
                 to="/register"
               >
                 <Icon className={classes.icon}>arrow_forward</Icon>
-                Create new account
+                Создать новую учетную запись
               </Button>
             </div>
           </Hidden>
-          <Typography variant="h4" className={classes.title} gutterBottom>
-            Sign In
+          <Typography variant="h4"  className={classes.title} style={{color:'#24BD53',fontSize:'30px',fontWeight:'600'}} gutterBottom>
+           Вход
           </Typography>
-          <Typography
-            variant="caption"
-            className={classes.subtitle}
-            gutterBottom
-            align="center"
-          >
-            Lorem ipsum dolor sit amet
-          </Typography>
+
           {/* <section className={classes.socmedLogin}>
             <div className={classes.btnArea}>
               <Button variant="outlined" size="small" className={classes.redBtn} type="button">
@@ -120,7 +118,7 @@ class LoginForm extends React.Component {
                     name="username"
                     component={TextFieldRedux}
                     placeholder="Your Username"
-                    label="Your Username"
+                    label="Ваше имя пользователя"
                     required
                     validate={[required]}
                     className={classes.field}
@@ -133,19 +131,19 @@ class LoginForm extends React.Component {
                     name="password"
                     component={TextFieldRedux}
                     type={showPassword ? 'text' : 'password'}
-                    label="Your Password"
+                    label="Ваш пароль"
                     InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="Toggle password visibility"
-                            onClick={this.handleClickShowPassword}
-                            onMouseDown={this.handleMouseDownPassword}
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      )
+                      // endAdornment: (
+                      //   <InputAdornment position="end">
+                      //     <IconButton
+                      //       aria-label="Toggle password visibility"
+                      //       onClick={this.handleClickShowPassword}
+                      //       onMouseDown={this.handleMouseDownPassword}
+                      //     >
+                      //       {showPassword ? <VisibilityOff /> : <Visibility />}
+                      //     </IconButton>
+                      //   </InputAdornment>
+                      // )
                     }}
                     required
                     validate={required}
@@ -157,7 +155,7 @@ class LoginForm extends React.Component {
                 <FormControlLabel
                   className={classes.label}
                   control={<Field name="checkbox" component={CheckboxRedux} />}
-                  label="Remember"
+                  label="Запомнить"
                 />
                 <Button
                   size="small"
@@ -165,21 +163,18 @@ class LoginForm extends React.Component {
                   to="/reset-password"
                   className={classes.buttonLink}
                 >
-                  Forgot Password
+                  Забыли пароль?
                 </Button>
               </div>
               <div className={classes.btnArea}>
                 <Button
                   variant="contained"
-                  color="primary"
                   size="large"
                   type="submit"
+                  style={{backgroundColor:'#24BD53',boxShadow:'0px 4px 20px rgba(36, 189, 83, 0.8)',borderRadius:'5px',color:'#fff'}}
                 >
-                  Continue
-                  <ArrowForward
-                    className={classNames(classes.rightIcon, classes.iconSmall)}
-                    disabled={submitting || pristine}
-                  />
+                  Продолжить
+
                 </Button>
               </div>
             </form>
