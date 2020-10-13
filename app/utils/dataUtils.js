@@ -53,10 +53,12 @@ export const convertDateToString = timeStamp => {
 export const calcUserExpirationTime = (flag, expirationSleep, expirationDate) =>
   flag ? expirationSleep : expirationDate - Math.round(Date.now() / 1000);
 
-export const addUserToSelect = (selectedArray, data) =>
-  selectedArray.map(item => ({
-    ...data[item.dataIndex]
-  }));
+export const addUserToSelect = (selectedArray, data) =>{
+  console.log(selectedArray);
+  // selectedArray.map(item => ({
+  //   ...data[item.dataIndex]
+  // }));
+}
 
 export const createTimestamp = (d, h, m, timeStamp = Math.round(Date.now() / 1000)) => {
   const days = !parseInt(d, 10) ? 0 : parseInt(d, 10);

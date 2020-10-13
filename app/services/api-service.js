@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export default class ApiService {
   _apiBase = 'http://apitest.bettingco.ru/api';
+  _apiMessage = 'https://157.230.125.134/betInformerBot/telegram/send_message';
 
   _userUrl = `${this._apiBase}/user/`;
 
@@ -170,20 +171,20 @@ export default class ApiService {
     }
   };
 
-  sendMessage = async (msg, token) => {
-    const path = '';
-    const url = `${this._userUrl}${path}`;
-
+  sendMessage = async (message, chatId,token) => {
+    const url = this._apiMessage;
+    let json ={message,chatId};
     try {
       const { data } = await axios({
         method: 'POST',
         url,
-        data: msg,
+        data: json,
+        'Content-Type':'application/json',
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-
+      console.log("data",data)
       return data;
     } catch (error) {
       throw this.createError(error);

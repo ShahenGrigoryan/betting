@@ -91,6 +91,11 @@ class UsersTable extends React.Component {
       }
     ];
 
+    const userCheck = (rows) =>{
+      console.log(rows)
+      select(rows)
+    }
+
     const options = {
       filterType: 'dropdown',
       print: false,
@@ -99,7 +104,7 @@ class UsersTable extends React.Component {
       rowsPerPageOptions: [25, 50, 100],
       page: 0,
       onChangeRowsPerPage: numbers => this.setState({ rowsPerPage: numbers }),
-      onRowsSelect: (...rowsSelected) => select(rowsSelected[1]),
+      onRowsSelect: (...rowsSelected) => userCheck(rowsSelected[1]),
       customToolbarSelect: () => {},
       onCellClick: (colData, { dataIndex }) => {
         const user = {

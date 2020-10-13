@@ -76,10 +76,14 @@ const usersReducer = (state = INIT_STATE, action) => {
         }
       };
     case SELECT_USER:
+      // state.selectedUsers.push(action.payload);
+      // selectedUsers: addUserToSelect(action.payload, state.users)
       return {
+
         ...state,
+        selectedUsers: action.payload,
         // eslint-disable-next-line no-confusing-arrow
-        selectedUsers: addUserToSelect(action.payload, state.users)
+
       };
     case CREATE_USER_FAILURE:
       return {

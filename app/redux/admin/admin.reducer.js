@@ -25,6 +25,7 @@ const adminReducer = (state = INIT_STATE, action) => {
         }else{
           state.user = transformAdminDataForStorage(action.payload)
         }
+      // state.admin = transformAdminDataForStorage(action.payload)
       return {
         ...state
       };

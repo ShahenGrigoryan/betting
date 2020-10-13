@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MessageModal = ({ sendMsg, token }) => {
+const MessageModal = ({ sendMsg,token, selectedUsers,users }) => {
   const [open, setOpen] = useState(false);
 
   const classes = useStyles();
@@ -29,7 +29,20 @@ const MessageModal = ({ sendMsg, token }) => {
 
   const submitForm = values => {
     const msg = values.get('message');
-    sendMsg(msg, token);
+    let to = [];
+      console.log("users",users)
+      console.log('selectedUsers',selectedUsers)
+    selectedUsers.map((item)=>{
+        if(users[item.index].chatId && !to.includes(users[item.index].chatId)){
+            console.log(users[item.index].chatId);
+            to.push(users[item.index].chatId)
+        }
+    })
+      console.log('to',to);
+      to.map((item)=>{
+          sendMsg(msg,item,token);
+      })
+
   };
 
   return (
@@ -70,11 +83,13 @@ const MessageModal = ({ sendMsg, token }) => {
 };
 
 const mapStateToProps = state => ({
-  token: state.get('admin').admin.token
+  token: state.get('admin').admin.token,
+  selectedUsers:state.get('users').selectedUsers,
+  users:state.get('users').users,
 });
 
 const mapDispatchToProps = dispatch => ({
-  sendMsg: (msg, token) => dispatch(sendMessageStart(msg, token))
+  sendMsg: (msg, chatId) => dispatch(sendMessageStart(msg, chatId))
 });
 
 export default connect(

@@ -1,5 +1,5 @@
 /* eslint-disable object-curly-newline */
-import { takeLatest, put, all, call } from 'redux-saga/effects';
+import { takeLatest,takeEvery, put, all, call } from 'redux-saga/effects';
 
 import ApiService from '../../services/api-service';
 
@@ -27,8 +27,8 @@ import {
   fetchUserGroupsFailure,
   refUsersSuccess,
   refUsersFailure,
-  /* sendMessageSuccess,
-  sendMessageFailure, */
+  sendMessageSuccess,
+  sendMessageFailure,
   addUsersTimeFailure,
   addUsersTimeSuccess
 } from './users.actions';
@@ -167,19 +167,18 @@ export function* refUsers({ payload: { users, token } }) {
   }
 }
 
-export function* sendMessage({ payload: { msg, token } }) {
-  console.log(msg, token);
+export function* sendMessage({ payload: { msg, chatId,token } }) {
   yield;
-  /* const apiService = new ApiService();
+   const apiService = new ApiService();
   try {
-    yield apiService.sendMessage(msg, token);
+    yield apiService.sendMessage(msg, chatId,token);
     yield put(sendMessageSuccess('Сообщение отправлено.'));
   } catch (error) {
     if (checkErrorStatus(error, 401)) {
       yield put(clearAdminSession());
     }
     yield put(sendMessageFailure(error));
-  } */
+  }
 }
 
 export function* addTime({ payload: { users, token } }) {
@@ -233,7 +232,7 @@ export function* onRefUsersStart() {
 }
 
 export function* onSendMessageStart() {
-  yield takeLatest(SEND_MESSAGE_START, sendMessage);
+  yield takeEvery(SEND_MESSAGE_START, sendMessage);
 }
 
 export function* onAddTimeStart() {
