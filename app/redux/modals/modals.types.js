@@ -1,0 +1,2 @@
+export const EDIT_MODAL_OPEN = 'EDIT_MODAL_OPEN';
+export const EDIT_MODAL_CLOSE = 'EDIT_MODAL_CLOSE';

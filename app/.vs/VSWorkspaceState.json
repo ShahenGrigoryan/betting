@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\api",
+    "\\components",
+    "\\containers",
+    "\\containers\\App",
+    "\\custom-components",
+    "\\redux",
+    "\\redux\\admin",
+    "\\utils"
+  ],
+  "SelectedNode": "\\containers\\pageListAsync.js",
+  "PreviewInSolutionExplorer": false
+}
