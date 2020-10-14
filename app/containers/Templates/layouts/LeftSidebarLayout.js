@@ -12,6 +12,7 @@ import {
 import dataMenu from 'dan-api/ui/menu';
 import Decoration from '../Decoration';
 import styles from '../appStyles-jss';
+import UserHeader from "../../../components/UserHeader/Header";
 
 function LeftSidebarLayout(props) {
   const {
@@ -33,7 +34,7 @@ function LeftSidebarLayout(props) {
   } = props;
   return (
     <Fragment>
-      <Header
+      <UserHeader
         toggleDrawerOpen={toggleDrawer}
         margin={sidebarOpen}
         gradient={gradient}

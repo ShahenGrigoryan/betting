@@ -9,9 +9,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Avatar from '@material-ui/core/Avatar';
 import brand from 'dan-api/dummy/brand';
 import dummy from 'dan-api/dummy/dummyContents';
-import logo from 'dan-images/logo.svg';
 import MainMenu from './MainMenu';
 import styles from './sidebar-jss';
+import Logo from "../../api/ui/images/LogoDark.svg"
+import LogoText from "../../api/ui/images/LogoTextDark.svg"
 
 function SidebarContent(props) {
   const [transform, setTransform] = useState(0);
@@ -61,9 +62,9 @@ function SidebarContent(props) {
   return (
     <div className={classNames(classes.drawerInner, !drawerPaper ? classes.drawerPaperClose : '')}>
       <div className={classes.drawerHeader}>
-        <NavLink to="/app" className={classNames(classes.brand, classes.brandBar, turnDarker && classes.darker)}>
-          <img src={logo} alt={brand.name} />
-          {brand.name}
+        <NavLink to="/" className={classNames(classes.brand, classes.brandBar, turnDarker && classes.darker)}>
+          <img src={Logo} alt={"Betting Co"} />
+          <img style={{width:'100px'}} src={LogoText} alt={"Betting Co"} />
         </NavLink>
         {isLogin && (
           <div

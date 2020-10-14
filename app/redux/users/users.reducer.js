@@ -42,7 +42,8 @@ const INIT_STATE = {
   selectedUsers: [],
   editingUser: null,
   message: null,
-  userGroups: []
+  userGroups: [],
+  sentCount:0,
 };
 
 const usersReducer = (state = INIT_STATE, action) => {
@@ -204,7 +205,9 @@ const usersReducer = (state = INIT_STATE, action) => {
         message: {
           text: action.payload,
           type: 'success'
-        }
+        },
+        sentCount: state.sentCount+1
+
       };
     case SEND_MESSAGE_FAILURE:
       return {

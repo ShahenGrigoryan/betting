@@ -126,9 +126,9 @@ export const refUsersFailure = (error, msg) => ({
   payload: { error, msg }
 });
 
-export const sendMessageStart = (msg, token) => ({
+export const sendMessageStart = (msg, chatId,token) => ({
   type: SEND_MESSAGE_START,
-  payload: { msg, token }
+  payload: { msg, chatId,token }
 });
 
 export const sendMessageSuccess = msg => ({

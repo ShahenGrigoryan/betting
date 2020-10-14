@@ -1,6 +1,6 @@
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import bg from 'dan-images/petal_bg.svg';
-
+import Bakcground from "../../api/ui/images/userBg.png"
 export const gradientBgLight = (theme) => `linear-gradient(-45deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.main} 33%, ${theme.palette.secondary.main} 100%);`;
 export const gradientBgDark = (theme) => `linear-gradient(-45deg, ${darken(theme.palette.primary.main, 0.4)} 0%, ${darken(theme.palette.primary.main, 0.4)} 33%, ${darken(theme.palette.secondary.main, 0.4)} 100%);`;
 
@@ -107,8 +107,10 @@ const styles = theme => ({
     },
   },
   gradientBg: {
-    backgroundImage: theme.palette.type === 'dark' ? gradientBgDark(theme) : gradientBgLight(theme),
-    backgroundAttachment: 'fixed'
+    backgroundImage: `url(${Bakcground})`,
+    backgroundAttachment: 'fixed',
+    backgroundSize:'contain',
+    height:'700px!important'
   },
   solidBg: {
     backgroundColor: theme.palette.type === 'dark' ? darken(theme.palette.primary.main, 0.4) : theme.palette.primary.main

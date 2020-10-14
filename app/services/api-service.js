@@ -173,15 +173,16 @@ export default class ApiService {
 
   sendMessage = async (message, chatId,token) => {
     const url = this._apiMessage;
-    let json ={message,chatId};
+    let json =JSON.stringify({message,chatId});
     try {
       const { data } = await axios({
-        method: 'POST',
+        method: 'GET',
         url,
         data: json,
-        'Content-Type':'application/json',
+
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
+          'Content-Type':'application/json',
         }
       });
       console.log("data",data)

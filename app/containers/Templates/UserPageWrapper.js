@@ -11,7 +11,8 @@ import UserBg from "../../api/ui/images/userBg.png"
 import UserIcon from "../../api/ui/images/UserIcon.svg";
 import ReferalIcon from "../../api/ui/images/ReferalIcon.svg";
 import ControlIcon from "../../api/ui/images/ControlIcon.svg"
-
+import moduleStyles from "./adapt.module.css"
+import moment from "moment";
 import {
     toggleAction,
     openAction,
@@ -25,7 +26,7 @@ import MegaMenuLayout from './layouts/MegaMenuLayout';
 import styles from './appStyles-jss';
 import Sidebar from "../../components/Sidebar";
 import Header from "../../components/Header/Header";
-import {Box, Button, Typography} from "@material-ui/core";
+import {Box, Button, Grid, Typography} from "@material-ui/core";
 import UserHeader from "../../components/UserHeader/Header";
 import InfoTitle from "../../components/UserHeader/InfoTitle";
 import InfoRow from "../../components/UserHeader/InfoRow";
@@ -41,7 +42,8 @@ const useStyles = makeStyles({
         fontSize: '25px',
         lineHeight: '30px',
         color: '#FFFFFF',
-        width:'27.18vw',
+        minWidth:'27.18vw',
+        width:'100%',
         height:'102px',
         textDecoration:'none',
         "&:hover":{
@@ -63,9 +65,8 @@ const useStyles = makeStyles({
         backgroundColor:'#fff',
         boxShadow: '0px 4px 20px rgba(60, 209, 132, 0.2)',
         borderRadius: '35px',
-        marginLeft:'89px',
         height:'auto',
-        width:'50.6vw'
+        width:'100%'
     },
     infoSide:{
         maxWidth:'50%'
@@ -73,6 +74,12 @@ const useStyles = makeStyles({
     bottomInfoSide:{
         width:'auto',
         maxWidth:'500px'
+    },
+    container:{
+        display:'flex',
+        ['@media (max-width:1200px)']:{
+            flexDirection:'column'
+        }
     }
 
 
@@ -100,7 +107,8 @@ function UserPageWrapper(props) {
         userInfo,
         token,
         changeMode,
-        getUserInfo
+        getUserInfo,
+        expiration
     } = props;
     useEffect(() => {
         const { history, loadTransition } = props;
@@ -140,12 +148,45 @@ function UserPageWrapper(props) {
     };
 
 
+    const getExpirationDate = () => {
+
+        function getExp(diff) {
+
+            function pad(num) {
+                return num > 9 ? num : '0'+num;
+            };
+
+
+          let days = Math.floor( diff / (1000*60*60*24) ),
+                hours = Math.floor( diff / (1000*60*60) ),
+                mins = Math.floor( diff / (1000*60) ),
+                secs = Math.floor( diff / 1000 ),
+                dd = days,
+                hh = hours - days * 24,
+                mm = mins - hours * 60,
+                ss = secs - mins * 60;
+
+          return(dd + 'д. ' +
+              pad(hh) + 'ч.' +
+              pad(mm) + 'м.')
+        }
+
+
+        if(userInfo) {
+            let date = !userInfo.subscribes[0].inSleep ? userInfo.subscribes[0].expirationDate :
+                userInfo.subscribes[0].inSleep ? userInfo.subscribes[0].expirationDate + userInfo.subscribes[0].expirationSleep : null;
+           let days = date*1000 - new Date().getTime();
+            return getExp(days)
+
+        }
+
+    }
 
     const parts = history.location.pathname.split('/');
     const place = parts[parts.length - 1].replace('-', ' ');
     return (
         <div
-            style={{ minHeight: appHeight }}
+            style={{minHeight: appHeight}}
 
         >
 
@@ -156,7 +197,12 @@ function UserPageWrapper(props) {
                 dataMenu={dataMenu}
                 leftSidebar
             />
-            <Box style={{backgroundImage:`url(${UserBg})`,height:'700px',backgroundSize:'contain',fontFamily:"'Montserrat', sans-serif"}}>
+            <Box style={{
+                backgroundImage: `url(${UserBg})`,
+                height: 'auto',
+                backgroundSize: 'contain',
+                fontFamily: "'Montserrat', sans-serif"
+            }}>
                 <UserHeader
                     toggleDrawerOpen={toggleDrawer}
                     margin={sidebarOpen}
@@ -168,54 +214,74 @@ function UserPageWrapper(props) {
                     history={history}
                     openGuide={handleOpenGuide}
                 />
-                <Box padding={"80px 3.56% 0 10%"} display={"flex"}>
-                    <Box className={styles.buttonBox}>
-                        <a href={"http://download.bettingco.ru/public/Betting%20Co%20Installer.exe"} target={"_blank"}>
-                <Button style={{marginBottom:'30px'}} className={styles.headerButton}>
-                    Скачать бота
-                </Button>
-                        </a>
-                        <a target={"_blank"} href={"http://download.bettingco.ru/public/Betting%20Co.%20%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F%2009.20.pdf"}>
 
-                <Button className={styles.headerButton}>Скачать мануал
-                </Button>
-                        </a>
-                    </Box>
-                    <Box>
-                    <Box className={styles.infoBox}>
-                        <Typography variant={"h6"} style={{marginBottom: '28px'}}>Профиль пользователя</Typography>
-                        <Box display={"flex"} justifyContent={"space-between"} style={{paddingBottom:'35px', borderBottom:' 1px solid rgba(0, 0, 0, 0.6)'}}>
-                        <Box className={styles.infoSide}>
-                            <InfoTitle title={"Информация о пользователе"} icon={UserIcon}/>
-                            <Box style={{paddingRight: '40px'}}>
-                            <InfoRow left={"Логин"} right={userInfo?userInfo.userName:"_"}/>
-                            <InfoRow left={"Почта"} right={userInfo?userInfo.email:'_'}/>
-                            <InfoRow left={"Пароль"} password color={"#000"} right={userPass}/>
-                            </Box>
-                        </Box>
-                        <Box className={styles.infoSide}>
-                                <InfoTitle title={"Реферальная система"} icon={ReferalIcon}/>
-                                <Box style={{paddingRight: '40px'}}>
-                                    <InfoRow left={"Мой промокод"} right={userInfo?userInfo.myReferalCode:'b16bb6'} color={'#C4C4C4'} textDecoration={'underline'}/>
-                                    <InfoRow left={"Рефералов"} color={"#000"} right={userInfo?userInfo.referalsCount:'0'}/>
-                                    <InfoRow left={"На выплату"} color={"#000"} right={userInfo?userInfo.myReferalUnpaidBalance+' р':'0 р'}/>
+                <Grid justify={'space-between'} style={{padding:"80px 3.56% 0 10%"}} container wrap spacing={4}>
+                    <Grid item md={1} bg={1} style={{width:'100%'}}>
+                        <Grid container  direction={'column'} justify={'center'} alignItems={'center'} style={{height:'100%'}}>
+                            <Grid item style={{width:'100%'}}>
+
+                            <a style={{textDecoration:'none'}} href={"http://download.bettingco.ru/public/Betting%20Co%20Installer.exe"} target={"_blank"}>
+                                <Button style={{marginBottom: '30px'}} className={styles.headerButton}>
+                                    Скачать бота
+                                </Button>
+                            </a>
+                            </Grid>
+                            <Grid item style={{width:'100%'}}>
+                            <a style={{textDecoration:'none'}} target={"_blank"}
+                               href={"http://download.bettingco.ru/public/Betting%20Co.%20%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F%2009.20.pdf"}>
+
+                                <Button className={styles.headerButton}>Скачать мануал
+                                </Button>
+                            </a>
+                            </Grid>
+
+                    </Grid>
+                    </Grid>
+                    <Grid item  md={7} bg={7} style={{width:'100%'}}>
+                        <Box>
+                            <Box className={styles.infoBox}>
+                                <Typography variant={"h6"} style={{marginBottom: '28px'}}>Профиль пользователя</Typography>
+                                <Box display={"flex"} justifyContent={"space-between"}
+                                     style={{paddingBottom: '35px', borderBottom: ' 1px solid rgba(0, 0, 0, 0.6)'}}>
+                                    <Box className={styles.infoSide}>
+                                        <InfoTitle title={"Информация о пользователе"} icon={UserIcon}/>
+                                        <Box style={{paddingRight: '40px'}}>
+                                            <InfoRow left={"Логин"} right={userInfo ? userInfo.userName : "_"}/>
+                                            <InfoRow left={"Почта"} right={userInfo ? userInfo.email : '_'}/>
+                                            <InfoRow left={"Пароль"} password color={"#000"} right={userPass}/>
+                                        </Box>
+                                    </Box>
+                                    <Box className={styles.infoSide}>
+                                        <InfoTitle title={"Реферальная система"} icon={ReferalIcon}/>
+                                        <Box style={{paddingRight: '40px'}}>
+                                            <InfoRow left={"Мой промокод"}
+                                                     right={userInfo ? userInfo.myReferalCode : 'b16bb6'} color={'#C4C4C4'}
+                                                     textDecoration={'underline'}/>
+                                            <InfoRow left={"Рефералов"} color={"#000"}
+                                                     right={userInfo ? userInfo.referalsCount : '0'}/>
+                                            <InfoRow left={"На выплату"} color={"#000"}
+                                                     right={userInfo ? userInfo.myReferalUnpaidBalance + ' р' : '0 р'}/>
+                                        </Box>
+                                    </Box>
+                                </Box>
+
+                                <Box className={styles.bottomInfoSide} style={{paddingTop: '35px'}}>
+                                    <InfoTitle title={"Панель управления"} icon={ControlIcon}/>
+                                    <Box>
+
+                                        <InfoRow left={"Ключ"} right={userInfo ? userInfo.key : '1 1 1'}/>
+                                        <InfoRow left={"Подписка"}
+                                                 right={getExpirationDate()}/>
+                                        <InfoRow left={"Кол-во возможных заморозок:"} color={"#000"}
+                                                 right={userInfo ? userInfo.subscribes[0].sleepCount : '0'}/>
+
+                                    </Box>
                                 </Box>
                             </Box>
                         </Box>
+                    </Grid>
 
-                        <Box className={styles.bottomInfoSide} style={{paddingTop:'35px'}}>
-                            <InfoTitle title={"Панель управления"} icon={ControlIcon}/>
-                            <Box>
-
-                                <InfoRow left={"Ключ"} right={userInfo?userInfo.key:'1 1 1'}/>
-                                <InfoRow left={"Подписка"}  right={userInfo?userInfo.expirationDate:'04.11.2032      07:52:26'}/>
-                                <InfoRow left={"Кол-во возможных заморозок:"}  color={"#000"} right={userInfo?userInfo.sleepCount:'0'}/>
-
-                            </Box>
-                        </Box>
-                    </Box>
-                    </Box>
-                </Box>
+                </Grid>
             </Box>
 
             {children}
@@ -248,6 +314,7 @@ const mapStateToProps = state => ({
     mode: state.getIn([reducer, 'type']),
     gradient: state.getIn([reducer, 'gradient']),
     deco: state.getIn([reducer, 'decoration']),
+    expiration:state.get('admin').user.expiration,
     token:state.get('admin').user.token,
     userInfo:state.get('admin').userInfo,
     userPass:state.get('admin').userPass,
